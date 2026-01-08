@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrushBuddy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+2:wght@400;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Baloo 2', cursive;
+            background: linear-gradient(135deg, #4FC3F7 0%, #29B6F6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            min-height: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1 {
+            color: #4FC3F7;
+            margin: 0 0 20px 0;
+            font-size: 32px;
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        button {
+            background: #4FC3F7;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s, background 0.2s;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            background: #29B6F6;
+        }
+        
+        .small-button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        
+        .play-btn {
+            background: #FFCA28;
+            color: #333;
+            font-size: 24px;
+            padding: 20px 50px;
+        }
+        
+        .play-btn:hover {
+            background: #FFB300;
+        }
+        
+        .profile-card {
+            background: #F5F5F5;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            color: #4FC3F7;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .profile-badges {
+            font-size: 18px;
+            color: #FF8A65;
+            font-weight: 600;
+        }
+        
+        .menu-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            color: #999;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 20;
+            min-width: 120px;
+            display: none;
+        }
+        
+        .menu-dropdown.show {
+            display: block;
+        }
+        
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .menu-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .shark {
+            font-size: 60px;
+            margin: 15px 0;
+        }
+        
+        .encouragement {
+            font-size: 26px;
+            color: #FF8A65;
+            font-weight: bold;
+            margin: 15px 0;
+            min-height: 60px;
+            font-family: 'Baloo 2', cursive;
+        }
+        
+        .circular-timer {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .circular-timer svg {
+            transform: rotate(-90deg);
+        }
+        
+        .circle-bg {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 12;
+        }
+        
+        .circle-progress {
+            fill: none;
+            stroke: #4FC3F7;
+            stroke-width: 12;
+            stroke-linecap: round;
+        }
+        
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            color: #4FC3F7;
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .timer-text.pulse {
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                color: #4FC3F7;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+                color: #FF8A65;
+            }
+        }
+        
+        input[type="text"] {
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #4FC3F7;
+            border-radius: 10px;
+            width: 80%;
+            margin-bottom: 20px;
+            font-family: 'Baloo 2', cursive;
+        }
+        
+        .footer {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+        
+        .about-link {
+            color: #BDBDBD;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .about-link:hover {
+            color: #4FC3F7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BrushBuddy</h1>
+        
+        <div id="dashboardScreen" class="hidden">
+            <div id="greetingMessage" style="font-size: 24px; color: #FF8A65; margin-bottom: 10px; font-weight: bold;"></div>
+            <div style="font-size: 20px; color: #FF8A65; margin-bottom: 20px;">Who's brushing today?</div>
+            <div id="profileList"></div>
+            <button onclick="showAddChild()" class="small-button">+ Add Child</button>
+            <div class="footer">
+                <a class="about-link" onclick="showAbout()">About</a>
+            </div>
+        </div>
+        
+        <div id="addChildScreen" class="hidden">
+            <div style="font-size: 20px; color: #FF8A65; margin-bottom: 20px;">What's your child's name?</div>
+            <input type="text" id="childNameInput" placeholder="Enter name here">
+            <button onclick="saveNewChild()">Add Profile</button>
+            <button onclick="showDashboard()" style="background: #BDBDBD;" class="small-button">Cancel</button>
+        </div>
+        
+        <div id="startScreen" class="hidden">
+            <div id="childNameDisplay" style="font-size: 24px; color: #FF8A65; margin-bottom: 30px;"></div>
+            <button onclick="startBrushing()" class="play-btn">▶️ Start Brushing</button>
+            <button onclick="showDashboard()" style="background: #BDBDBD;" class="small-button">Back</button>
+        </div>
+        
+        <div id="timerScreen" class="hidden">
+            <div class="shark">🦈</div>
+            <div class="encouragement" id="encouragementText">You're doing great!</div>
+            <div class="circular-timer">
+                <svg viewBox="0 0 200 200">
+                    <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+                    <circle class="circle-progress" cx="100" cy="100" r="90" id="progressCircle" stroke-dasharray="565.48" stroke-dashoffset="565.48"></circle>
+                </svg>
+                <div class="timer-text" id="timerDisplay">2:00</div>
+            </div>
+            <button id="pauseBtn" onclick="togglePause()" style="background: #FFCA28; color: #333;" class="small-button">⏸️ Pause</button>
+            <button onclick="stopBrushing()" style="background: #FF8A65;" class="small-button">⏹️ Stop</button>
+        </div>
+        
+        <div id="celebrationScreen" class="hidden">
+            <div style="font-size: 28px; color: #FF8A65; margin: 20px 0;">🎉 Amazing Job! 🎉</div>
+            <div class="shark">🦈</div>
+            <div id="brushQuestion" style="font-size: 20px; margin: 20px 0;">Did they brush?</div>
+            <button onclick="answerYes()" style="font-size: 60px; padding: 20px 40px; background: #FFCA28; color: #333;">😁</button>
+            <button onclick="answerNo()" style="font-size: 60px; padding: 20px 40px; background: #BDBDBD;">😐</button>
+        </div>
+        
+        <div id="badgeScreen" class="hidden">
+            <div style="font-size: 60px; margin: 20px 0;">⭐</div>
+            <div style="font-size: 24px; color: #FF8A65; margin: 20px 0;"><span id="badgeChildName"></span> earned a badge!</div>
+            <div style="font-size: 24px; color: #4FC3F7; font-weight: bold;">🏆 This Week: <span id="finalBadges">0</span></div>
+            <button onclick="showDashboard()">Done</button>
+        </div>
+        
+        <div id="trophyCabinetScreen" class="hidden">
+            <div style="font-size: 28px; color: #4FC3F7; margin-bottom: 10px; font-weight: bold;"><span id="trophyChildName"></span>'s Trophy Cabinet 🏆</div>
+            <button id="weekViewBtn" onclick="switchTrophyView('week')" style="background: #4FC3F7;" class="small-button">This Week</button>
+            <button id="monthViewBtn" onclick="switchTrophyView('month')" style="background: #BDBDBD;" class="small-button">By Month</button>
+            <div id="trophyContent" style="max-height: 400px; overflow-y: auto; margin: 20px 0;"></div>
+            <button onclick="showDashboard()" style="background: #BDBDBD;" class="small-button">Back</button>
+        </div>
+        
+        <div id="encouragementScreen" class="hidden">
+            <div style="font-size: 80px; margin: 20px 0;">🤜🤛</div>
+            <div style="font-size: 24px; color: #FF8A65; margin: 20px 0; font-weight: bold;">Let's try again next time, <span id="encouragementChildName"></span>!</div>
+            <div style="font-size: 18px; color: #999; margin: 20px 0;">You've got this! 💪</div>
+            <button onclick="showDashboard()">Back to Dashboard</button>
+        </div>
+        
+        <div id="aboutScreen" class="hidden">
+            <div style="font-size: 28px; color: #4FC3F7; margin-bottom: 20px; font-weight: bold; font-family: 'Fredoka One', cursive;">Music Credit</div>
+            <div style="font-size: 16px; color: #666; line-height: 1.8; text-align: left; max-width: 350px; margin: 0 auto 30px;">
+                <div style="margin-bottom: 10px;"><strong>Music:</strong> Bensound.com/free-music-for-videos</div>
+                <div style="margin-bottom: 10px;"><strong>License code:</strong> OLAVUCOHQRL2B9JV</div>
+                <div style="margin-bottom: 10px;"><strong>Artist:</strong> Benjamin Tissot</div>
+            </div>
+            <button onclick="showDashboard()" style="background: #BDBDBD;" class="small-button">Back</button>
+        </div>
+    </div>
+
+    <script>
+        let children = {};
+        let currentChild = null;
+        let timeLeft = 120;
+        let timerInterval, encouragementInterval;
+        let isPaused = false;
+        let encouragementCount = 0;
+        let trophyView = 'week';
+        let brushMusic = new Audio('./music.mp3');
+        brushMusic.loop = true;
+        let fadeInterval = null;
+        
+        async function init() {
+            await loadChildren();
+            showDashboard();
+        }
+        
+        async function loadChildren() {
+            try {
+                const keys = await window.storage.list('child:');
+                if (keys?.keys) {
+                    for (let key of keys.keys) {
+                        const result = await window.storage.get(key);
+                        if (result?.value) {
+                            const data = JSON.parse(result.value);
+                            children[data.name] = data.badges || [];
+                        }
+                    }
+                }
+            } catch(e) {
+                console.log('Storage not available, using memory only');
+            }
+        }
+        
+        function hideAll() {
+            ['dashboardScreen','addChildScreen','startScreen','timerScreen','celebrationScreen','badgeScreen','trophyCabinetScreen','encouragementScreen','aboutScreen'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+        }
+        
+        function showDashboard() {
+            hideAll();
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            const h = new Date().getHours();
+            document.getElementById('greetingMessage').textContent = 
+                h>=5&&h<12 ? "Good Morning! ☀️" : h>=12&&h<17 ? "Good Afternoon! 🌤️" : h>=17&&h<21 ? "Good Evening! 🌅" : "Good Night! 🌙";
+            displayProfiles();
+        }
+        
+        function displayProfiles() {
+            const list = document.getElementById('profileList');
+            if (Object.keys(children).length === 0) {
+                list.innerHTML = '<div style="color: #999; margin: 20px 0;">No profiles yet!</div>';
+                return;
+            }
+            list.innerHTML = '';
+            for (let name in children) {
+                const weekly = getWeeklyBadges(name);
+                const card = document.createElement('div');
+                card.className = 'profile-card';
+                card.innerHTML = `
+                    <button class="menu-btn" onclick="event.stopPropagation();toggleMenu('${name}')">⋮</button>
+                    <div class="menu-dropdown" id="menu-${name}">
+                        <div class="menu-item" style="color:#4FC3F7" onclick="event.stopPropagation();showTrophyCabinet('${name}')">🏆 Trophy Cabinet</div>
+                        <div class="menu-item" style="color:#FF8A65" onclick="event.stopPropagation();deleteProfile('${name}')">🗑️ Delete</div>
+                    </div>
+                    <div onclick="selectChild('${name}')">
+                        <div class="profile-name">${name}</div>
+                        <div class="profile-badges">🏆 ${weekly} ${weekly===1?'badge':'badges'} this week</div>
+                    </div>
+                `;
+                list.appendChild(card);
+            }
+        }
+        
+        function toggleMenu(name) {
+            document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show'));
+            document.getElementById('menu-'+name).classList.toggle('show');
+        }
+        
+        function getWeeklyBadges(name) {
+            const now = new Date(), day = now.getDay();
+            const monday = new Date(now.setDate(now.getDate() - day + (day===0?-6:1)));
+            monday.setHours(0,0,0,0);
+            return (children[name]||[]).filter(b => b >= monday.toISOString()).length;
+        }
+        
+        function showAddChild() {
+            hideAll();
+            document.getElementById('addChildScreen').classList.remove('hidden');
+            document.getElementById('childNameInput').value = '';
+        }
+        
+        function saveNewChild() {
+            const name = document.getElementById('childNameInput').value.trim();
+            if (!name) return alert("Enter a name!");
+            if (children[name]) return alert("Profile exists!");
+            children[name] = [];
+            saveChild(name, []);
+            showDashboard();
+        }
+        
+        async function saveChild(name, badges) {
+            children[name] = badges;
+            try {
+                await window.storage.set('child:'+name, JSON.stringify({name,badges}));
+            } catch(e) {
+                console.log('Could not save to storage');
+            }
+        }
+        
+        function selectChild(name) {
+            currentChild = name;
+            hideAll();
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('childNameDisplay').textContent = name + "'s Brushing Time!";
+        }
+        
+        function startBrushing() {
+            hideAll();
+            document.getElementById('timerScreen').classList.remove('hidden');
+            timeLeft = 120;
+            encouragementCount = 0;
+            isPaused = false;
+            
+            document.getElementById('timerDisplay').classList.remove('pulse');
+            document.getElementById('pauseBtn').textContent = '⏸️ Pause';
+            document.getElementById('pauseBtn').style.background = '#FFCA28';
+            
+            brushMusic.volume = 1.0;
+            brushMusic.currentTime = 0;
+            brushMusic.play().catch(e => console.log('Music play failed:', e));
+            
+            updateTimer();
+            showMsg();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                
+                if (timeLeft === 5 && !fadeInterval) {
+                    fadeInterval = setInterval(() => {
+                        if (brushMusic.volume > 0.1) {
+                            brushMusic.volume = Math.max(0, brushMusic.volume - 0.2);
+                        }
+                    }, 1000);
+                }
+                
+                if (timeLeft === 60) {
+                    document.getElementById('encouragementText').textContent = "You're halfway through! Amazing! Keep going! 🏆";
+                    showCelebrationBurst();
+                }
+                if (timeLeft === 10) {
+                    document.getElementById('timerDisplay').classList.add('pulse');
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    clearInterval(encouragementInterval);
+                    if (fadeInterval) {
+                        clearInterval(fadeInterval);
+                        fadeInterval = null;
+                    }
+                    document.getElementById('timerDisplay').classList.remove('pulse');
+                    
+                    brushMusic.pause();
+                    brushMusic.currentTime = 0;
+                    brushMusic.volume = 1.0;
+                    
+                    hideAll();
+                    document.getElementById('celebrationScreen').classList.remove('hidden');
+                    document.getElementById('brushQuestion').textContent = `Did ${currentChild} brush their teeth?`;
+                }
+            }, 1000);
+            encouragementInterval = setInterval(showMsg, 10000);
+        }
+        
+        function showCelebrationBurst() {
+            const burst = document.createElement('div');
+            burst.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:80px;z-index:100;pointer-events:none';
+            burst.textContent = '🎉';
+            document.body.appendChild(burst);
+            
+            let scale = 0;
+            let opacity = 1;
+            const burstAnimation = setInterval(() => {
+                scale += 0.1;
+                opacity -= 0.05;
+                burst.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                burst.style.opacity = opacity;
+                if (opacity <= 0) {
+                    clearInterval(burstAnimation);
+                    burst.remove();
+                }
+            }, 50);
+            
+            const colors = ['#ff6b6b','#4ecdc4','#45b7d1','#f9ca24','#6c5ce7','#a29bfe','#fd79a8'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const conf = document.createElement('div');
+                    conf.style.cssText = `position:fixed;width:10px;height:10px;left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};z-index:99;pointer-events:none`;
+                    document.body.appendChild(conf);
+                    
+                    let top = -10;
+                    let rotation = 0;
+                    const confAnimation = setInterval(() => {
+                        top += 5;
+                        rotation += 10;
+                        conf.style.top = top + 'px';
+                        conf.style.transform = `rotate(${rotation}deg)`;
+                        if (top > window.innerHeight) {
+                            clearInterval(confAnimation);
+                            conf.remove();
+                        }
+                    }, 30);
+                }, i * 50);
+            }
+        }
+        
+        function showMsg() {
+            encouragementCount++;
+            
+            const firstMsgs = [
+                "Ok, {name}, let's do this! 💪",
+                "You've got this, {name}! 🌟",
+                "Let's go, {name}! Time to shine! ✨",
+                "Ready, {name}? Let's brush! 🦷"
+            ];
+            
+            const personalMsgs = [
+                "{name}, you're doing amazing! 🌟",
+                "Great work, {name}! Keep brushing! 🦷",
+                "{name}, those teeth are sparkling! ✨",
+                "Awesome brushing, {name}! 🎉",
+                "{name}, you're a tooth-brushing champion! 🏆",
+                "Keep it up, {name}! You're doing great! 💪"
+            ];
+            
+            const generalMsgs = [
+                "Wow, look at those pearly teeth shining already! ✨",
+                "Those gnashers are looking 7/10 pearly, can we get to 8/10?! 😁",
+                "Remember those back teeth little shark! 🦈",
+                "Give those bottom teeth the clean they deserve! 🪥",
+                "You're brushing like a superhero! 🦸",
+                "You're going to have the cleanest teeth in the whole entire world! 🌍",
+                "Keep those teeth shiny! 💫",
+                "Great brushing! Keep going! 🎉"
+            ];
+            
+            let msg;
+            
+            if (encouragementCount === 1) {
+                msg = firstMsgs[Math.floor(Math.random() * firstMsgs.length)].replace('{name}', currentChild);
+            }
+            else if (encouragementCount % 3 === 0) {
+                msg = personalMsgs[Math.floor(Math.random() * personalMsgs.length)].replace('{name}', currentChild);
+            }
+            else {
+                msg = generalMsgs[Math.floor(Math.random() * generalMsgs.length)];
+            }
+            
+            document.getElementById('encouragementText').textContent = msg;
+        }
+        
+        function updateTimer() {
+            const m = Math.floor(timeLeft/60), s = timeLeft%60;
+            document.getElementById('timerDisplay').textContent = m+':'+(s<10?'0':'')+s;
+            document.getElementById('progressCircle').style.strokeDashoffset = 565.48 - ((120-timeLeft)/120*565.48);
+        }
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                clearInterval(timerInterval);
+                clearInterval(encouragementInterval);
+                if (fadeInterval) {
+                    clearInterval(fadeInterval);
+                    fadeInterval = null;
+                }
+                brushMusic.pause();
+                document.getElementById('pauseBtn').textContent = '▶️ Resume';
+            } else {
+                brushMusic.play().catch(e => console.log('Music play failed:', e));
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimer();
+                    
+                    if (timeLeft === 5 && !fadeInterval) {
+                        fadeInterval = setInterval(() => {
+                            if (brushMusic.volume > 0.1) {
+                                brushMusic.volume = Math.max(0, brushMusic.volume - 0.2);
+                            }
+                        }, 1000);
+                    }
+                    
+                    if (timeLeft === 60) {
+                        document.getElementById('encouragementText').textContent = "You're halfway through! Amazing! Keep going! 🏆";
+                        showCelebrationBurst();
+                    }
+                    if (timeLeft === 10) {
+                        document.getElementById('timerDisplay').classList.add('pulse');
+                    }
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        clearInterval(encouragementInterval);
+                        if (fadeInterval) {
+                            clearInterval(fadeInterval);
+                            fadeInterval = null;
+                        }
+                        document.getElementById('timerDisplay').classList.remove('pulse');
+                        
+                        brushMusic.pause();
+                        brushMusic.currentTime = 0;
+                        brushMusic.volume = 1.0;
+                        
+                        hideAll();
+                        document.getElementById('celebrationScreen').classList.remove('hidden');
+                        document.getElementById('brushQuestion').textContent = `Did ${currentChild} brush their teeth?`;
+                    }
+                }, 1000);
+                encouragementInterval = setInterval(showMsg, 10000);
+                document.getElementById('pauseBtn').textContent = '⏸️ Pause';
+            }
+        }
+        
+        function stopBrushing() {
+            clearInterval(timerInterval);
+            clearInterval(encouragementInterval);
+            if (fadeInterval) {
+                clearInterval(fadeInterval);
+                fadeInterval = null;
+            }
+            
+            brushMusic.pause();
+            brushMusic.currentTime = 0;
+            brushMusic.volume = 1.0;
+            
+            hideAll();
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+        
+        function answerYes() {
+            if (!children[currentChild]) children[currentChild] = [];
+            children[currentChild].push(new Date().toISOString());
+            saveChild(currentChild, children[currentChild]);
+            hideAll();
+            document.getElementById('badgeScreen').classList.remove('hidden');
+            document.getElementById('badgeChildName').textContent = currentChild;
+            document.getElementById('finalBadges').textContent = getWeeklyBadges(currentChild);
+            showCelebrationBurst();
+        }
+        
+        function answerNo() {
+            hideAll();
+            document.getElementById('encouragementScreen').classList.remove('hidden');
+            document.getElementById('encouragementChildName').textContent = currentChild;
+        }
+        
+        function showAbout() {
+            hideAll();
+            const aboutScreen = document.getElementById('aboutScreen');
+            if (aboutScreen) {
+                aboutScreen.classList.remove('hidden');
+            } else {
+                console.error('aboutScreen element not found');
+            }
+        }
+        
+        function showTrophyCabinet(name) {
+            currentChild = name;
+            hideAll();
+            document.getElementById('trophyCabinetScreen').classList.remove('hidden');
+            document.getElementById('trophyChildName').textContent = name;
+            switchTrophyView('week');
+        }
+        
+        function switchTrophyView(view) {
+            trophyView = view;
+            document.getElementById('weekViewBtn').style.background = view==='week'?'#4FC3F7':'#BDBDBD';
+            document.getElementById('monthViewBtn').style.background = view==='month'?'#4FC3F7':'#BDBDBD';
+            
+            if (view === 'week') {
+                const weekly = getWeeklyBadges(currentChild);
+                document.getElementById('trophyContent').innerHTML = 
+                    `<div style="background:#f0f0f0;border-radius:15px;padding:30px;text-align:center">
+                        <div style="font-size:80px">🏆</div>
+                        <div style="font-size:48px;color:#4FC3F7;font-weight:bold">${weekly}</div>
+                        <div style="font-size:20px;color:#FF8A65">${weekly===1?'badge':'badges'} this week!</div>
+                        <div style="font-size:16px;color:#999;margin-top:10px">${weekly<14 ? `${14-weekly} more to reach the goal of 14!` : '🎉 Weekly goal achieved!'}</div>
+                    </div>`;
+            } else {
+                const badges = children[currentChild] || [];
+                const monthlyData = {};
+                
+                badges.forEach(timestamp => {
+                    const date = new Date(timestamp);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+                    const monthName = date.toLocaleDateString('en-US', {month:'long', year:'numeric'});
+                    if (!monthlyData[monthKey]) monthlyData[monthKey] = {name:monthName, count:0};
+                    monthlyData[monthKey].count++;
+                });
+                
+                const months = Object.keys(monthlyData).sort().reverse();
+if (months.length === 0) {
+                document.getElementById('trophyContent').innerHTML = 
+                    '<div style="background:#f0f0f0;border-radius:15px;padding:30px;text-align:center;color:#999">No badges earned yet!</div>';
+            } else {
+                let html = '';
+                months.forEach(monthKey => {
+                    const month = monthlyData[monthKey];
+                    const badgeText = month.count === 1 ? 'badge' : 'badges';
+                    html += `
+                        <div style="background:#f0f0f0;border-radius:15px;padding:20px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center">
+                            <div style="text-align:left">
+                                <div style="font-size:18px;font-weight:bold;color:#4FC3F7">${month.name}</div>
+                                <div style="font-size:14px;color:#FF8A65;margin-top:5px">${month.count} ${badgeText}</div>
+                            </div>
+                            <div style="font-size:40px">🏆</div>
+                        </div>
+                    `;
+                });
+                document.getElementById('trophyContent').innerHTML = html;
+            }
+        }
+    }
+    
+    function deleteProfile(name) {
+        document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show'));
+        
+        const weekly = getWeeklyBadges(name);
+        
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000';
+        
+        const dialog = document.createElement('div');
+        dialog.style.cssText = 'background:white;border-radius:15px;padding:30px;max-width:400px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center';
+        
+        const title = document.createElement('h3');
+        title.style.cssText = 'margin:0 0 15px 0;color:#FF8A65;font-size:22px';
+        title.textContent = 'Delete Profile?';
+        
+        const message = document.createElement('p');
+        message.style.cssText = 'margin:0 0 25px 0;color:#666;font-size:16px;line-height:1.5';
+        message.textContent = `Are you sure you want to delete ${name}'s profile? This will permanently remove all their brushing history (${weekly} ${weekly===1?'badge':'badges'} this week) and cannot be undone.`;
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display:flex;gap:10px;justify-content:center';
+        
+        const yesBtn = document.createElement('button');
+        yesBtn.style.cssText = 'background:#FF8A65;color:white;border:none;padding:12px 30px;font-size:16px;border-radius:8px;cursor:pointer';
+        yesBtn.textContent = 'Yes, Delete';
+        yesBtn.onclick = () => confirmDelete(name, overlay);
+        
+        const noBtn = document.createElement('button');
+        noBtn.style.cssText = 'background:#BDBDBD;color:white;border:none;padding:12px 30px;font-size:16px;border-radius:8px;cursor:pointer';
+        noBtn.textContent = 'Cancel';
+        noBtn.onclick = () => overlay.remove();
+        
+        buttonContainer.appendChild(yesBtn);
+        buttonContainer.appendChild(noBtn);
+        
+        dialog.appendChild(title);
+        dialog.appendChild(message);
+        dialog.appendChild(buttonContainer);
+        overlay.appendChild(dialog);
+        
+        document.body.appendChild(overlay);
+    }
+    
+    async function confirmDelete(name, overlay) {
+        overlay.remove();
+        
+        delete children[name];
+        
+        try {
+            await window.storage.delete('child:' + name);
+        } catch(e) {
+            console.log('Could not delete from storage');
+        }
+        
+        showDashboard();
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    window.addEventListener('load', () => {
+        if (document.getElementById('dashboardScreen').classList.contains('hidden')) {
+            showDashboard();
+        }
+    });
+</script>
