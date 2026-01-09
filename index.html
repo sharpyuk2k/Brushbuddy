@@ -241,10 +241,6 @@
     </style>
 </head>
 <body>
-<div id="iosInstall" style="display:none; padding:12px; background:#e8f5e9; border-radius:10px; margin:10px; font-size:14px;">
-  📱 <strong>Install BrushBuddy</strong><br>
-  Tap the <strong>Share</strong> button in Safari, then choose <strong>Add to Home Screen</strong>
-</div>
 
     <div class="container">
         <h1>BrushBuddy</h1>
@@ -816,15 +812,6 @@ if (months.length === 0) {
         }
     });
 </script>
-<script>
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isInStandalone = window.navigator.standalone === true;
-
-if (isIOS && !isInStandalone) {
-  document.getElementById("iosInstall").style.display = "block";
-}
-</script>
-
 </body>
 </html>
 
