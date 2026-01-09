@@ -331,27 +331,22 @@
         brushMusic.loop = true;
         let fadeInterval = null;
         
-        async function init() {
-            await loadChildren();
-            showDashboard();
-        }
+        function init() {
+    loadChildren();
+    showDashboard();
+}
         
-        async function loadChildren() {
-            try {
-                const keys = await window.storage.list('child:');
-                if (keys?.keys) {
-                    for (let key of keys.keys) {
-                        const result = await window.storage.get(key);
-                        if (result?.value) {
-                            const data = JSON.parse(result.value);
-                            children[data.name] = data.badges || [];
-                        }
-                    }
-                }
-            } catch(e) {
-                console.log('Storage not available, using memory only');
-            }
+        function loadChildren() {
+    try {
+        const saved = localStorage.getItem('brushbuddy_children');
+        if (saved) {
+            children = JSON.parse(saved);
         }
+    } catch(e) {
+        console.log('localStorage not available, using memory only');
+    }
+}
+
         
         function hideAll() {
             ['dashboardScreen','addChildScreen','startScreen','timerScreen','celebrationScreen','badgeScreen','trophyCabinetScreen','encouragementScreen','aboutScreen'].forEach(id => {
@@ -422,14 +417,14 @@
             showDashboard();
         }
         
-        async function saveChild(name, badges) {
-            children[name] = badges;
-            try {
-                await window.storage.set('child:'+name, JSON.stringify({name,badges}));
-            } catch(e) {
-                console.log('Could not save to storage');
-            }
-        }
+        function saveChild(name, badges) {
+    children[name] = badges;
+    try {
+        localStorage.setItem('brushbuddy_children', JSON.stringify(children));
+    } catch(e) {
+        console.log('Could not save to localStorage');
+    }
+}
         
         function selectChild(name) {
             currentChild = name;
@@ -787,19 +782,19 @@ if (months.length === 0) {
         document.body.appendChild(overlay);
     }
     
-    async function confirmDelete(name, overlay) {
-        overlay.remove();
-        
-        delete children[name];
-        
-        try {
-            await window.storage.delete('child:' + name);
-        } catch(e) {
-            console.log('Could not delete from storage');
-        }
-        
-        showDashboard();
+    function confirmDelete(name, overlay) {
+    overlay.remove();
+    
+    delete children[name];
+    
+    try {
+        localStorage.setItem('brushbuddy_children', JSON.stringify(children));
+    } catch(e) {
+        console.log('Could not delete from localStorage');
     }
+    
+    showDashboard();
+}
     
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
