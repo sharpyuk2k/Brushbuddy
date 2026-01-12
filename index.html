@@ -26,17 +26,31 @@
         }
         
         .container {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 400px;
-            width: 100%;
-            min-height: 600px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-        }
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    height: 600px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #4FC3F7;
+    border-radius: 10px;
+}
         
         h1 {
             color: #4FC3F7;
@@ -154,20 +168,23 @@
         }
         
         .encouragement {
-            font-size: 26px;
-            color: #FF8A65;
-            font-weight: bold;
-            margin: 15px 0;
-            min-height: 60px;
-            font-family: 'Baloo 2', cursive;
-        }
+    font-size: 26px;
+    color: #FF8A65;
+    font-weight: bold;
+    margin: 30px 0 20px 0;
+    height: 80px;
+    font-family: 'Baloo 2', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
         
         .circular-timer {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-        }
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 20px auto;
+}
         
         .circular-timer svg {
             transform: rotate(-90deg);
@@ -187,15 +204,15 @@
         }
         
         .timer-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 48px;
-            font-weight: bold;
-            color: #4FC3F7;
-            font-family: 'Fredoka One', cursive;
-        }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 56px;
+    font-weight: bold;
+    color: #4FC3F7;
+    font-family: 'Fredoka One', cursive;
+}
         
         .timer-text.pulse {
             animation: pulse 1s ease-in-out infinite;
@@ -238,23 +255,6 @@
         .about-link:hover {
             color: #4FC3F7;
         }
-.trophy-display {
-    background: linear-gradient(145deg, #8B6F47 0%, #A0826D 50%, #8B6F47 100%);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,215,0,0.3);
-    border-top: 3px solid #FFD700;
-    position: relative;
-}
-
-.trophy-display-inner {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 0 0 3px rgba(255,215,0,0.4), inset 0 2px 8px rgba(0,0,0,0.1);
-    border: 2px solid #E8E8E8;
-}
     </style>
 </head>
 <body>
@@ -286,7 +286,7 @@
         </div>
         
         <div id="timerScreen" class="hidden">
-            <div class="shark">🦈</div>
+           
             <div class="encouragement" id="encouragementText">You're doing great!</div>
             <div class="circular-timer">
                 <svg viewBox="0 0 200 200">
@@ -301,31 +301,15 @@
         
         <div id="celebrationScreen" class="hidden">
             <div style="font-size: 28px; color: #FF8A65; margin: 20px 0;">🎉 Amazing Job! 🎉</div>
-            <div class="shark">🦈</div>
+           
             <div id="brushQuestion" style="font-size: 20px; margin: 20px 0;">Did they brush?</div>
-            <button onclick="answerYes()" style="font-size: 60px; padding: 20px 40px; background: #FFCA28; color: #333;">😁</button>
-            <button onclick="answerNo()" style="font-size: 60px; padding: 20px 40px; background: #BDBDBD;">😐</button>
-        </div>
-        
-        <div id="medalScreen" class="hidden">
-            <div style="font-size: 24px; color: #FF8A65; margin: 20px 0; font-weight: bold;">How did it go today?</div>
-            <button id="goldMedalBtn" onclick="selectMedal('gold')" style="font-size: 50px; padding: 20px 40px; background: #FFD700; color: #333; margin: 15px 0; width: 90%; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <span style="font-size: 60px;">🥇</span>
-                <span style="font-size: 18px;">Gold – Brushed really well</span>
-            </button>
-            <button id="silverMedalBtn" onclick="selectMedal('silver')" style="font-size: 50px; padding: 20px 40px; background: #C0C0C0; color: #333; margin: 15px 0; width: 90%; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <span style="font-size: 60px;">🥈</span>
-                <span style="font-size: 18px;">Silver – Good effort</span>
-            </button>
-            <button id="bronzeMedalBtn" onclick="selectMedal('bronze')" style="font-size: 50px; padding: 20px 40px; background: #CD7F32; color: white; margin: 15px 0; width: 90%; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <span style="font-size: 60px;">🥉</span>
-                <span style="font-size: 18px;">Bronze – Gave it a go</span>
-            </button>
+            <button onclick="answerYes()" style="font-size: 48px; padding: 15px 35px; background: #FFCA28; color: #333;">😁</button>
+<button onclick="answerNo()" style="font-size: 48px; padding: 15px 35px; background: #BDBDBD;">😐</button>
         </div>
         
         <div id="badgeScreen" class="hidden">
-            <div style="font-size: 60px; margin: 20px 0;">⭐</div>
-            <div style="font-size: 24px; color: #FF8A65; margin: 20px 0;"><span id="badgeChildName"></span> earned a badge!</div>
+            <div style="font-size: 60px; margin: 20px 0;">🏆</div>
+            <div style="font-size: 24px; color: #FF8A65; margin: 20px 0;"><span id="badgeChildName"></span> earned a trophy!</div>
             <div style="font-size: 24px; color: #4FC3F7; font-weight: bold;">🏆 This Week: <span id="finalBadges">0</span></div>
             <button onclick="showDashboard()">Done</button>
         </div>
@@ -367,7 +351,6 @@
         let brushMusic = new Audio('./music.mp3');
         brushMusic.loop = true;
         let fadeInterval = null;
-let medalSelected = false;
         
         function init() {
     loadChildren();
@@ -387,11 +370,11 @@ let medalSelected = false;
 
         
         function hideAll() {
-    ['dashboardScreen','addChildScreen','startScreen','timerScreen','celebrationScreen','medalScreen','badgeScreen','trophyCabinetScreen','encouragementScreen','aboutScreen'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-    });
-}
+            ['dashboardScreen','addChildScreen','startScreen','timerScreen','celebrationScreen','badgeScreen','trophyCabinetScreen','encouragementScreen','aboutScreen'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+        }
         
         function showDashboard() {
             hideAll();
@@ -421,7 +404,7 @@ let medalSelected = false;
                     </div>
                     <div onclick="selectChild('${name}')">
                         <div class="profile-name">${name}</div>
-                        <div class="profile-badges">🏆 ${weekly} ${weekly===1?'medal':'medals'} this week</div>
+                        <div class="profile-badges">🏆 ${weekly} ${weekly===1?'trophy':'trophies'} this week</div>
                     </div>
                 `;
                 list.appendChild(card);
@@ -450,50 +433,21 @@ let medalSelected = false;
     }).length;
 }
 
-
-function getWeeklyMedalCounts(name) {
-    const now = new Date();
-    const day = now.getDay();
-    const monday = new Date(now.setDate(now.getDate() - day + (day === 0 ? -6 : 1)));
-    monday.setHours(0, 0, 0, 0);
-    
-    const badges = children[name] || [];
-    const counts = { gold: 0, silver: 0, bronze: 0 };
-    
-    badges.forEach(badge => {
-        const timestamp = typeof badge === 'string' ? badge : badge.timestamp;
-        if (timestamp >= monday.toISOString() && badge.medal) {
-            counts[badge.medal]++;
-        }
-    });
-    
-    return counts;
-}
         
-function showAddChild() {
-    hideAll();
-    document.getElementById('addChildScreen').classList.remove('hidden');
-    document.getElementById('childNameInput').value = '';
-}
+        function showAddChild() {
+            hideAll();
+            document.getElementById('addChildScreen').classList.remove('hidden');
+            document.getElementById('childNameInput').value = '';
+        }
         
         function saveNewChild() {
-    const name = document.getElementById('childNameInput').value.trim();
-    if (!name) return alert("Enter a name!");
-    if (children[name]) return alert("Profile exists!");
-    
-    // Add the child to the object FIRST
-    children[name] = [];
-    
-    // Save to localStorage
-    try {
-        localStorage.setItem('brushbuddy_children', JSON.stringify(children));
-    } catch(e) {
-        console.log('Could not save to localStorage');
-    }
-    
-    // Now show the dashboard
-    showDashboard();
-}
+            const name = document.getElementById('childNameInput').value.trim();
+            if (!name) return alert("Enter a name!");
+            if (children[name]) return alert("Profile exists!");
+            children[name] = [];
+            saveChild(name, []);
+            showDashboard();
+        }
         
         function saveChild(name, badges) {
     children[name] = badges;
@@ -645,20 +599,17 @@ function startMainTimer() {
                 "Great work, {name}! Keep brushing! 🦷",
                 "{name}, those teeth are sparkling! ✨",
                 "Awesome brushing, {name}! 🎉",
-		"Pearly whites get the gold medal, {name}!🥇",
+		"This brushing is world class, {name}! 🌍",
                 "{name}, you're a tooth-brushing champion! 🏆",
                 "Keep it up, {name}! You're doing great! 💪"
             ];
             
             const generalMsgs = [
-                "Wow, look at those teeth shining already! ✨",
-                "This is strong brushing! 😁",
-                "Scrub those back teeth little shark! 🦈",
-                "Remember the bottom ones! 🪥",
+                "Wow, look at those pearly teeth shining! ✨",
+                "Those gnashers are looking sparkly! 😁",
+                "Remember those back teeth little shark! 🦈",
+                "Give those bottom teeth the clean they deserve! 🪥",
                 "You're brushing like a superhero! 🦸",
-                "This brush is world class! 🌍",
-		"So good! Great Work! ✨",
-		"Get right to the back ones! 🪥",
                 "Keep those teeth shiny! 💫",
                 "Great brushing! Keep going! 🎉"
             ];
@@ -731,7 +682,7 @@ function startMainTimer() {
                         
                         hideAll();
                         document.getElementById('celebrationScreen').classList.remove('hidden');
-                        document.getElementById('brushQuestion').textContent = `Did ${currentChild} brush their teeth for 2 minutes?`;
+                        document.getElementById('brushQuestion').textContent = `Did ${currentChild} brush their teeth?`;
                     }
                 }, 1000);
                 encouragementInterval = setInterval(showMsg, 10000);
@@ -756,38 +707,15 @@ function startMainTimer() {
         }
         
         function answerYes() {
-    medalSelected = false;
-    document.getElementById('goldMedalBtn').disabled = false;
-    document.getElementById('silverMedalBtn').disabled = false;
-    document.getElementById('bronzeMedalBtn').disabled = false;
-    document.getElementById('goldMedalBtn').style.opacity = '1';
-    document.getElementById('silverMedalBtn').style.opacity = '1';
-    document.getElementById('bronzeMedalBtn').style.opacity = '1';
-    hideAll();
-    document.getElementById('medalScreen').classList.remove('hidden');
-}
-function selectMedal(medal) {
-    if (medalSelected) return;
-    
-    medalSelected = true;
-    
-    document.getElementById('goldMedalBtn').disabled = true;
-    document.getElementById('silverMedalBtn').disabled = true;
-    document.getElementById('bronzeMedalBtn').disabled = true;
-    document.getElementById('goldMedalBtn').style.opacity = '0.5';
-    document.getElementById('silverMedalBtn').style.opacity = '0.5';
-    document.getElementById('bronzeMedalBtn').style.opacity = '0.5';
-    
     if (!children[currentChild]) children[currentChild] = [];
     
+    // Save as an OBJECT with timestamp, not just a string
     const brushRecord = {
-        timestamp: new Date().toISOString(),
-        medal: medal
+        timestamp: new Date().toISOString()
     };
     
     children[currentChild].push(brushRecord);
     saveChild(currentChild, children[currentChild]);
-    
     hideAll();
     document.getElementById('badgeScreen').classList.remove('hidden');
     document.getElementById('badgeChildName').textContent = currentChild;
@@ -820,64 +748,59 @@ function selectMedal(medal) {
         }
         
         function switchTrophyView(view) {
-    trophyView = view;
-    document.getElementById('weekViewBtn').style.background = view==='week'?'#4FC3F7':'#BDBDBD';
-    document.getElementById('monthViewBtn').style.background = view==='month'?'#4FC3F7':'#BDBDBD';
-    
-    if (view === 'week') {
-        const weekly = getWeeklyBadges(currentChild);
-        const medalCounts = getWeeklyMedalCounts(currentChild);
-        
-        document.getElementById('trophyContent').innerHTML = 
-    `<div class="trophy-display">
-        <div class="trophy-display-inner">
-            <div style="font-size:48px;color:#4FC3F7;font-weight:bold;margin-bottom:20px">${weekly}</div>
-            <div style="font-size:20px;color:#8B6F47;margin-bottom:20px;font-weight:bold">✨ ${weekly===1?'medal':'medals'} this week! ✨</div>
+            trophyView = view;
+            document.getElementById('weekViewBtn').style.background = view==='week'?'#4FC3F7':'#BDBDBD';
+            document.getElementById('monthViewBtn').style.background = view==='month'?'#4FC3F7':'#BDBDBD';
             
-            <div style="display:flex;justify-content:center;gap:20px;margin:20px 0;font-size:18px">
-                ${medalCounts.gold > 0 ? `<div style="display:flex;align-items:center;gap:8px"><span style="font-size:40px">🥇</span><span style="font-weight:bold">× ${medalCounts.gold}</span></div>` : ''}
-                ${medalCounts.silver > 0 ? `<div style="display:flex;align-items:center;gap:8px"><span style="font-size:40px">🥈</span><span style="font-weight:bold">× ${medalCounts.silver}</span></div>` : ''}
-                ${medalCounts.bronze > 0 ? `<div style="display:flex;align-items:center;gap:8px"><span style="font-size:40px">🥉</span><span style="font-weight:bold">× ${medalCounts.bronze}</span></div>` : ''}
-            </div>
-        </div>
-    </div>`;
-    } else {
-        const badges = children[currentChild] || [];
-        const monthlyData = {};
+            if (view === 'week') {
+    const weekly = getWeeklyBadges(currentChild);
+    
+    // Create trophy emojis (max 14)
+    const trophyCount = Math.min(weekly, 14);
+    const trophyEmojis = '🏆'.repeat(trophyCount);
+    
+    document.getElementById('trophyContent').innerHTML = 
+        `<div style="background:#f0f0f0;border-radius:15px;padding:30px;text-align:center">
+            <div style="font-size:48px;line-height:1.4;">${trophyEmojis}</div>
+            <div style="font-size:20px;color:#FF8A65;margin-top:15px;">${weekly} ${weekly===1?'trophy':'trophies'} this week!</div>
+        </div>`;
+} else {
+    const badges = children[currentChild] || [];
+    const monthlyData = {};
+    
+    badges.forEach(entry => {
+        // Handle BOTH old format (string) and new format (object)
+        const timestamp = typeof entry === 'string' ? entry : entry.timestamp;
         
-        badges.forEach(badge => {
-            const timestamp = typeof badge === 'string' ? badge : badge.timestamp;
-            const date = new Date(timestamp);
-            const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
-            const monthName = date.toLocaleDateString('en-US', {month:'long', year:'numeric'});
-            if (!monthlyData[monthKey]) monthlyData[monthKey] = {name:monthName, count:0};
-            monthlyData[monthKey].count++;
-        });
-        
-        const months = Object.keys(monthlyData).sort().reverse();
-        
-        if (months.length === 0) {
-            document.getElementById('trophyContent').innerHTML = 
-    '<div style="background:#f0f0f0;border-radius:15px;padding:30px;text-align:center;color:#999">No medals earned yet!</div>';
-        } else {
-            let html = '';
-            months.forEach(monthKey => {
-                const month = monthlyData[monthKey];
-                const badgeText = month.count === 1 ? 'medal' : 'medals';
-                html += `
-                    <div style="background:#f0f0f0;border-radius:15px;padding:20px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center">
-                        <div style="text-align:left">
-                            <div style="font-size:18px;font-weight:bold;color:#4FC3F7">${month.name}</div>
-                            <div style="font-size:14px;color:#FF8A65;margin-top:5px">${month.count} ${badgeText}</div>
+        const date = new Date(timestamp);
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+        const monthName = date.toLocaleDateString('en-US', {month:'long', year:'numeric'});
+        if (!monthlyData[monthKey]) monthlyData[monthKey] = {name:monthName, count:0};
+        monthlyData[monthKey].count++;
+    });                
+                const months = Object.keys(monthlyData).sort().reverse();
+if (months.length === 0) {
+                document.getElementById('trophyContent').innerHTML = 
+                    '<div style="background:#f0f0f0;border-radius:15px;padding:30px;text-align:center;color:#999">No trophies earned yet!</div>';
+            } else {
+                let html = '';
+                months.forEach(monthKey => {
+                    const month = monthlyData[monthKey];
+                    const badgeText = month.count === 1 ? 'trophy' : 'trophies';
+                    html += `
+                        <div style="background:#f0f0f0;border-radius:15px;padding:20px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center">
+                            <div style="text-align:left">
+                                <div style="font-size:18px;font-weight:bold;color:#4FC3F7">${month.name}</div>
+                                <div style="font-size:14px;color:#FF8A65;margin-top:5px">${month.count} ${badgeText}</div>
+                            </div>
+                            <div style="font-size:40px">🏆</div>
                         </div>
-                        <div style="font-size:40px">🏆</div>
-                    </div>
-                `;
-            });
-            document.getElementById('trophyContent').innerHTML = html;
+                    `;
+                });
+                document.getElementById('trophyContent').innerHTML = html;
+            }
         }
     }
-}
     
     function deleteProfile(name) {
         document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show'));
@@ -896,7 +819,7 @@ function selectMedal(medal) {
         
         const message = document.createElement('p');
         message.style.cssText = 'margin:0 0 25px 0;color:#666;font-size:16px;line-height:1.5';
-        message.textContent = `Are you sure you want to delete ${name}'s profile? This will permanently remove all their brushing history (${weekly} ${weekly===1?'medal':'medals'} this week) and cannot be undone.`;
+        message.textContent = `Are you sure you want to delete ${name}'s profile? This will permanently remove all their brushing history (${weekly} ${weekly===1?'trophy':'trophies'} this week) and cannot be undone.`;
         
         const buttonContainer = document.createElement('div');
         buttonContainer.style.cssText = 'display:flex;gap:10px;justify-content:center';
